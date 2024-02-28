@@ -1,9 +1,7 @@
 package com.mudit.userservice.controllers;
 
-import com.mudit.userservice.dtos.LoginRequestDto;
-import com.mudit.userservice.dtos.LogoutRequestDto;
-import com.mudit.userservice.dtos.SignUpRequestDto;
-import com.mudit.userservice.dtos.UserDto;
+import com.mudit.userservice.dtos.*;
+import com.mudit.userservice.models.SessionStatus;
 import com.mudit.userservice.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +34,11 @@ public class AuthController {
     public ResponseEntity<UserDto> signup(@RequestBody SignUpRequestDto signUpRequestDto) {
         UserDto userDto = authService.signup(signUpRequestDto.getEmail(), signUpRequestDto.getPassword());
         return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<SessionStatus> validate(@RequestBody ValidateTokenRequestDto validateTokenRequestDto) {
+        SessionStatus sessionStatus = authService.validate(validateTokenRequestDto.getToken(), validateTokenRequestDto.getUserId());
+        return new ResponseEntity<>(sessionStatus, HttpStatus.OK);
     }
 }

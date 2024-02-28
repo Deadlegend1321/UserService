@@ -71,4 +71,12 @@ public class AuthService {
         return UserDto.fromUser(savedUser);
     }
 
+    public SessionStatus validate(String token, Long userId) {
+        Optional<Session> sessionOptional = sessionRepository.findByTokenAndUser_Id(token, userId);
+        if(sessionOptional.isEmpty()){
+            return null;
+        }
+        return SessionStatus.ACTIVE;
+    }
+
 }
